@@ -48,5 +48,4 @@ tasks.withType<Test> {
 detekt {
     toolVersion = "1.22.0"
     config = files("config/detekt/detekt.yml")
-    buildUponDefaultConfig = true
 }
