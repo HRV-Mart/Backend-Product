@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service
 import reactor.core.publisher.Mono
 
 @Service
-class ProductService (
+class ProductService(
     @Autowired
     private val productRepository: ProductRepository
 ) {
@@ -17,30 +17,31 @@ class ProductService (
         productRepository.insert(product.setIdToDefault())
     fun updateProduct(product: Product, response: ServerHttpResponse) =
         isProductExist(productId = product.id)
-            .flatMap {isExist ->
-                if (isExist)
+            .flatMap { isExist ->
+                if (isExist) {
                     productRepository.save(product)
                         .map {
                             setHTTPOkCode(response)
                         }
                         .then(Mono.just("Product Updated Successfully"))
-                else
+                } else {
                     setHTTPNotfoundCode(response)
                         .then(Mono.just("Product Not Found"))
-
+                }
             }
     fun getProductFromId(productId: String, response: ServerHttpResponse) =
         isProductExist(productId)
-            .flatMap {isExist ->
-                if (isExist)
+            .flatMap { isExist ->
+                if (isExist) {
                     setHTTPOkCode(response)
                         .then(
                             productRepository
                                 .findById(productId)
                         )
-                else
+                } else {
                     setHTTPNotfoundCode(response)
                         .then(Mono.empty())
+                }
             }
     fun deleteProduct(productId: String, response: ServerHttpResponse) =
         isProductExist(productId)
@@ -49,8 +50,7 @@ class ProductService (
                     productRepository.deleteById(productId)
                         .then(setHTTPOkCode(response))
                         .then(Mono.just("Product Deleted Successfully"))
-                }
-                else {
+                } else {
                     setHTTPNotfoundCode(response)
                         .then(Mono.just("Product Not Found"))
                 }

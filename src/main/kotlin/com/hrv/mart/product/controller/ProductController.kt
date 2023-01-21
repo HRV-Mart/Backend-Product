@@ -18,18 +18,17 @@ import org.springframework.web.bind.annotation.RestController
 class ProductController(
     @Autowired
     private val productService: ProductService
-)
-{
+) {
     @PostMapping
     fun createProduct(@RequestBody product: Product) =
         productService.createProduct(product)
     @PutMapping
     fun updateProduct(@RequestBody product: Product, response: ServerHttpResponse) =
         productService.updateProduct(product, response)
-    @GetMapping("/{productId}")
-    fun getProductFromId(@PathVariable productId: String, response: ServerHttpResponse ) =
+    @GetMapping ("/{productId}")
+    fun getProductFromId(@PathVariable productId: String, response: ServerHttpResponse) =
         productService.getProductFromId(productId = productId, response = response)
-    @DeleteMapping("/{productId}")
+    @DeleteMapping( "/{productId}" )
     fun deleteProductFromId(@PathVariable productId: String, response: ServerHttpResponse) =
         productService.deleteProduct(productId = productId, response = response)
 }
