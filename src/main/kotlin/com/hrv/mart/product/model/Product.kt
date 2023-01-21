@@ -16,4 +16,8 @@ data class Product (
             this(name, description, images) {
                 this.id = id
             }
+    fun setIdToDefault(): Product {
+        this.id = ObjectId().toString()
+        return this
+    }
 }
