@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.server.reactive.ServerHttpResponse
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Mono
+import reactor.kotlin.core.publisher.switchIfEmpty
 
 @Service
 class ProductService(
@@ -30,18 +31,14 @@ class ProductService(
                 }
             }
     fun getProductFromId(productId: String, response: ServerHttpResponse) =
-        isProductExist(productId)
-            .flatMap { isExist ->
-                if (isExist) {
-                    setHTTPOkCode(response)
-                        .then(
-                            productRepository
-                                .findById(productId)
-                        )
-                } else {
-                    setHTTPNotfoundCode(response)
-                        .then(Mono.empty())
-                }
+        productRepository.findById(productId)
+            .flatMap {product ->
+                setHTTPOkCode(response)
+                    .then(Mono.just(product))
+            }
+            .switchIfEmpty {
+                setHTTPNotfoundCode(response)
+                    .then(Mono.empty())
             }
     fun deleteProduct(productId: String, response: ServerHttpResponse) =
         isProductExist(productId)
