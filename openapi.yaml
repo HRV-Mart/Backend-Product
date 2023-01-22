@@ -1,0 +1,133 @@
+openapi: 3.0.3
+info:
+  title: Backend Product
+  description: |-
+    This is Product micorservice for backend of **HRV-Mart**. This API will contains operations related to Product and have its own database. For more information, visit 
+  contact:
+    email: harshverma3305@gmail.com
+    name: Harsh Verma
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 0.0.1
+servers:
+  - url: http://localhost:8080
+tags:
+  - name: product
+    description: Operations about product
+paths:
+  /product:
+    post:
+      tags:
+        - product
+      summary: Create product
+      description: This operation is not meant to be expose publicly.
+      operationId: createProduct
+      requestBody:
+        description: Created product object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Product'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Product'
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+            application/xml:
+              schema: 
+                $ref: '#/components/schemas/Product'
+        500:
+          description: Something went wrong.
+    put:
+      tags:
+        - product
+      summary: Update product
+      description: This operation is not meant to be expose publicly.
+      operationId: updateProduct
+      requestBody:
+        description: Update an existent product in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Product'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Product'
+      responses:
+        default:
+          description: successful operation
+  /product/{productId}:
+    get:
+      tags:
+        - product
+      summary: Get user by user name
+      description: ''
+      operationId: getProductyId
+      parameters:
+        - name: productId
+          in: path
+          description: The id that needs to be fetched. Use productId1 for testing.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'          
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '404':
+          description: Product not found
+    delete:
+      tags:
+        - product
+      summary: Delete product
+      description: This operation is not meant to be expose publicly.
+      operationId: deleteUser
+      parameters:
+        - name: productId
+          in: path
+          description: The productId that needs to be deleted
+          required: true
+          schema:
+            type: string
+      responses:
+        default:
+          description: Product deleted successfully
+        '404':
+          description: Product not found
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 123456absc
+          description: This will be use as productId.
+        name:
+          type: string
+          example: Test Product
+        images:
+          type: array
+          items:
+            type: string
+          example: [https://image.test.com/1, https://image.test.com/2]
+      xml:
+        name: product
