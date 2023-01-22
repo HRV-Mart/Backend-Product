@@ -1,5 +1,6 @@
 package com.hrv.mart.product.controller
 
+import com.hrv.mart.product.fixture.CustomPageRequest
 import com.hrv.mart.product.model.Product
 import com.hrv.mart.product.service.ProductService
 import org.springframework.beans.factory.annotation.Autowired
@@ -11,7 +12,9 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
+import java.util.*
 
 @RestController
 @RequestMapping("/product")
@@ -28,6 +31,12 @@ class ProductController(
     @GetMapping ("/{productId}")
     fun getProductFromId(@PathVariable productId: String, response: ServerHttpResponse) =
         productService.getProductFromId(productId = productId, response = response)
+    @GetMapping
+    fun getAllProducts(@RequestParam size: Optional<Int>, @RequestParam page: Optional<Int>) =
+        productService.getAllProduct(CustomPageRequest.getPageRequest(
+            optionalSize = size,
+            optionalPage = page
+        ))
     @DeleteMapping( "/{productId}" )
     fun deleteProductFromId(@PathVariable productId: String, response: ServerHttpResponse) =
         productService.deleteProduct(productId = productId, response = response)

@@ -1,15 +1,19 @@
 package com.hrv.mart.product
 
 import com.hrv.mart.product.controller.ProductController
+import com.hrv.mart.product.fixture.Pageable
 import com.hrv.mart.product.model.Product
 import com.hrv.mart.product.repository.ProductRepository
 import com.hrv.mart.product.service.ProductService
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.doReturn
 import org.mockito.Mockito.mock
+import org.springframework.data.domain.PageRequest
 import org.springframework.http.server.reactive.ServerHttpResponse
+import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 import reactor.test.StepVerifier
+import java.util.*
 
 class TestProductController {
     private val productRepository = mock(ProductRepository::class.java)
@@ -88,6 +92,40 @@ class TestProductController {
             .existsById(product.id)
         StepVerifier.create(productController.deleteProductFromId(product.id, response))
             .expectNext("Product Not Found")
+            .verifyComplete()
+    }
+    @Test
+    fun `should return list of products`() {
+        val page = 0
+        val size = 1
+        doReturn(Flux.just(product))
+            .`when`(productRepository)
+            .findProductsByNameNotNull(PageRequest.of(page, size))
+        doReturn(Mono.just(1L))
+            .`when`(productRepository)
+            .countProductByNameNotNull()
+        StepVerifier.create(productController.getAllProducts(
+            page = Optional.of(page),
+            size = Optional.of(size)
+        ))
+            .expectNext(Pageable(size.toLong(), null, listOf(product)))
+            .verifyComplete()
+    }
+    @Test
+    fun `should return empty list of products`() {
+        val page = 1
+        val size = 1
+        doReturn(Flux.empty<Product>())
+            .`when`(productRepository)
+            .findProductsByNameNotNull(PageRequest.of(page, size))
+        doReturn(Mono.just(1L))
+            .`when`(productRepository)
+            .countProductByNameNotNull()
+        StepVerifier.create(productController.getAllProducts(
+            page = Optional.of(page),
+            size = Optional.of(size)
+        ))
+            .expectNext(Pageable(size.toLong(), null, listOf()))
             .verifyComplete()
     }
 }
