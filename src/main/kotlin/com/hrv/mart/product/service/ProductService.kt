@@ -1,8 +1,11 @@
 package com.hrv.mart.product.service
 
+import com.hrv.mart.product.fixture.CustomPageRequest
+import com.hrv.mart.product.fixture.Pageable
 import com.hrv.mart.product.model.Product
 import com.hrv.mart.product.repository.ProductRepository
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.domain.PageRequest
 import org.springframework.http.HttpStatus
 import org.springframework.http.server.reactive.ServerHttpResponse
 import org.springframework.stereotype.Service
@@ -39,6 +42,23 @@ class ProductService(
             .switchIfEmpty {
                 setHTTPNotfoundCode(response)
                     .then(Mono.empty())
+            }
+    fun getAllProduct(pageRequest: PageRequest) =
+        productRepository.findProductsByNameNotNull(pageRequest)
+            .collectList()
+            .flatMap {products ->
+                val count = productRepository.countProductByNameNotNull()
+                count.map {count ->
+                    Pageable<Product>(
+                        data = products,
+                        nextPage = Pageable.getNextPage(
+                            pageSize = pageRequest.pageSize.toLong(),
+                            page = pageRequest.pageNumber.toLong(),
+                            totalSize = count
+                        ),
+                        size = pageRequest.pageSize.toLong()
+                    )
+                }
             }
     fun deleteProduct(productId: String, response: ServerHttpResponse) =
         isProductExist(productId)
