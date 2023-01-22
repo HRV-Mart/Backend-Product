@@ -8,5 +8,6 @@ class ProductApplicationTests {
 
     @Test
     fun contextLoads() {
+        main(emptyArray())
     }
 }
