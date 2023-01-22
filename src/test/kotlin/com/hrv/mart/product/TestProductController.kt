@@ -53,9 +53,6 @@ class TestProductController {
     }
     @Test
     fun `should return product if product exist`() {
-        doReturn(Mono.just(true))
-            .`when`(productRepository)
-            .existsById(product.id)
         doReturn(Mono.just(product))
             .`when`(productRepository)
             .findById(product.id)
@@ -65,9 +62,9 @@ class TestProductController {
     }
     @Test
     fun `should return empty mono if product does not exist`() {
-        doReturn(Mono.just(false))
+        doReturn(Mono.empty<Product>())
             .`when`(productRepository)
-            .existsById(product.id)
+            .findById(product.id)
         StepVerifier.create(productController.getProductFromId(product.id, response))
             .expectComplete()
             .verify()
