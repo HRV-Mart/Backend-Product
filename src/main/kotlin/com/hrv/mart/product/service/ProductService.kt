@@ -48,13 +48,13 @@ class ProductService(
             .collectList()
             .flatMap {products ->
                 val count = productRepository.countProductByNameNotNull()
-                count.map {count ->
+                count.map {totalSize ->
                     Pageable<Product>(
                         data = products,
                         nextPage = Pageable.getNextPage(
                             pageSize = pageRequest.pageSize.toLong(),
                             page = pageRequest.pageNumber.toLong(),
-                            totalSize = count
+                            totalSize = totalSize
                         ),
                         size = pageRequest.pageSize.toLong()
                     )

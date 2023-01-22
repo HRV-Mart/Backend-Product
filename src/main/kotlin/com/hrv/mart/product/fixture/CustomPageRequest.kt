@@ -9,7 +9,7 @@ object CustomPageRequest {
     private const val maxSize = 10;
     private const val minSize = 1;
 
-    fun getPageRequest(optionalPage: Optional<Int>, optionalSize: Optional<Int>): PageRequest{
+    fun getPageRequest(optionalPage: Optional<Int>, optionalSize: Optional<Int>): PageRequest {
         val size = if (optionalSize.isPresent) {
             sizeLimit(optionalSize.get())
         }
@@ -27,7 +27,7 @@ object CustomPageRequest {
     private fun sizeLimit(size: Int) =
         min(maxSize, max(minSize, size))
 }
-data class Pageable<T> (
+data class Pageable<T>(
     val size: Long,
     val nextPage: Long?,
     val data: List<T>
