@@ -20,7 +20,7 @@ object CustomPageRequest {
             optionalPage.get()
         }
         else {
-            maxSize
+            0
         }
         return PageRequest.of(page, size)
     }
