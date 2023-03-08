@@ -8,7 +8,7 @@ info:
     name: Harsh Verma
   license:
     name: Apache 2.0
-    url: http://www.apache.org/licenses/LICENSE-2.0.html
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
   version: 0.0.1
 servers:
   - url: http://localhost:8080
@@ -68,11 +68,39 @@ paths:
       responses:
         default:
           description: successful operation
+    get:
+      tags:
+        - product
+      summary: Get all product in database. Uses pageable
+      operationId: getAllProduct
+      parameters:
+        - name: size
+          in: query
+          description: Requested page size. Default and maximum value is 10
+          required: false
+          schema:
+            type: integer
+        - name: page
+          in: query
+          description: Requested page index. Default value is 0.
+          required: false
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Return products
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductPageable'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ProductPageable'
   /product/{productId}:
     get:
       tags:
         - product
-      summary: Get user by user name
+      summary: Get product by productId
       description: ''
       operationId: getProductyId
       parameters:
@@ -129,5 +157,24 @@ components:
           items:
             type: string
           example: [https://image.test.com/1, https://image.test.com/2]
+        price:
+          type: number
+          example: 100
+          description: Represent cost of product. Datatype is Long
       xml:
         name: product
+    ProductPageable:
+      type: object
+      properties:
+        size:
+          type: number
+          example: 10
+          description: Maximum product object which can be retrieve from database
+        nextPage:
+          type: number
+          example: 2
+          description: Next page index if available else it will be null
+        data:
+          type: array
+          items:
+            type: object
