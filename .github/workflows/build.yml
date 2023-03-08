@@ -4,6 +4,9 @@ on:
   pull_request:
     branches:
       - '*'
+  push:
+    branches:
+      - '*'
 env:
   MONGODB_URI: 'mongodb://localhost:27017'
   APPLICATION_PORT: '8080'
