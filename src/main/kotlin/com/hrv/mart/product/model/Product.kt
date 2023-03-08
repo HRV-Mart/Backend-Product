@@ -13,7 +13,7 @@ data class Product(
 ) {
     @Id
     var id: String = ObjectId().toString()
-    constructor(name: String, description: String, images: List<String>, price:Long, id: String) :
+    constructor(name: String, description: String, images: List<String>, price: Long, id: String) :
         this(name, description, images, price) {
         this.id = id
     }
