@@ -23,7 +23,8 @@ class TestProductController {
     private val product = Product(
         name = "Test Product",
         description = "Created for test",
-        images = listOf("https://test.image.com/1")
+        images = listOf("https://test.image.com/1"),
+        price = 100L
     )
     @Test
     fun `should create product and return that product`() {
