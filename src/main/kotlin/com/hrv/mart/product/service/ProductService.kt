@@ -1,7 +1,6 @@
 package com.hrv.mart.product.service
 
-import com.hrv.mart.product.fixture.CustomPageRequest
-import com.hrv.mart.product.fixture.Pageable
+import com.hrv.mart.custompageable.Pageable
 import com.hrv.mart.product.model.Product
 import com.hrv.mart.product.repository.ProductRepository
 import org.springframework.beans.factory.annotation.Autowired
