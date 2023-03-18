@@ -18,6 +18,14 @@ java.sourceCompatibility = JavaVersion.VERSION_17
 
 repositories {
     mavenCentral()
+    maven {
+        name = "GitHubPackages"
+        url = uri("https://maven.pkg.github.com/hrv-mart/custom-pageable")
+        credentials {
+            username = project.findProperty("gpr.user") as String? ?: System.getenv("USERNAME")
+            password = project.findProperty("gpr.key") as String? ?: System.getenv("TOKEN")
+        }
+    }
 }
 
 dependencies {
@@ -32,6 +40,8 @@ dependencies {
     testImplementation("io.projectreactor:reactor-test")
     // Detekt-formatting
     detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.22.0")
+    // Custom-Pageable
+    implementation("com.hrv.mart:custom-pageable:0.0.1-SNAPSHOT")
 }
 
 tasks.withType<KotlinCompile> {
