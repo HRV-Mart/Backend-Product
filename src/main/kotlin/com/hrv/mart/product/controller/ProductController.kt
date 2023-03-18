@@ -1,6 +1,6 @@
 package com.hrv.mart.product.controller
 
-import com.hrv.mart.product.fixture.CustomPageRequest
+import com.hrv.mart.custompageable.CustomPageRequest
 import com.hrv.mart.product.model.Product
 import com.hrv.mart.product.service.ProductService
 import org.springframework.beans.factory.annotation.Autowired
@@ -33,7 +33,8 @@ class ProductController(
         productService.getProductFromId(productId = productId, response = response)
     @GetMapping
     fun getAllProducts(@RequestParam size: Optional<Int>, @RequestParam page: Optional<Int>) =
-        productService.getAllProduct(CustomPageRequest.getPageRequest(
+        productService.getAllProduct(
+            CustomPageRequest.getPageRequest(
             optionalSize = size,
             optionalPage = page
         ))
