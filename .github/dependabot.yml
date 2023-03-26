@@ -9,6 +9,9 @@ updates:
     directory: "/" # Location of package manifests
     schedule:
       interval: "daily"
+    reviewers:
+      - "HRV-Mart/Backend"
+      - "Harsh3305"
     registries:
       maven-artifactory:
         type: maven-repository
@@ -16,6 +19,3 @@ updates:
         username: ${{secrets.OSSRH_USERNAME}}
         password: ${{secrets.OSSRH_TOKEN}}
         replaces-base: true
-    reviewers:
-      - "HRV-Mart/Backend"
-      - "Harsh3305"
