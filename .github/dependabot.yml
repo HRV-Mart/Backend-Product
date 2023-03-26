@@ -16,3 +16,6 @@ updates:
         username: ${{secrets.OSSRH_USERNAME}}
         password: ${{secrets.OSSRH_TOKEN}}
         replaces-base: true
+    reviewers:
+      - "HRV-Mart/Backend"
+      - "Harsh3305"
