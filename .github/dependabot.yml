@@ -16,6 +16,8 @@ registries:
 updates:
   - package-ecosystem: "gradle" # See documentation for possible values
     directory: "/" # Location of package manifests
+    registries:
+      - maven-artifactory # Allow version updates for dependencies in this registry
     schedule:
       interval: "daily"
     reviewers:
