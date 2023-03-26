@@ -9,3 +9,10 @@ updates:
     directory: "/" # Location of package manifests
     schedule:
       interval: "daily"
+    registries:
+      maven-artifactory:
+        type: maven-repository
+        url: https://maven.pkg.github.com/hrv-mart/custom-pageable
+        username: ${{secrets.OSSRH_USERNAME}}
+        password: ${{secrets.OSSRH_TOKEN}}
+        replaces-base: true
