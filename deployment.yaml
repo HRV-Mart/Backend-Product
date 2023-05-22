@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-product-deployment
+  labels:
+    app: product
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: product
+  template:
+    metadata:
+      labels:
+        app: product
+    spec:
+      containers:
+        - name: backend-product
+          image: harsh3305/hrv-mart-backend-product
+          ports:
+            - containerPort: 8082
+          imagePullPolicy: Always
+          env:
+            - name: MONGODB_URI
+              valueFrom:
+                secretKeyRef:
+                  key: mongodb_uri
+                  name: secret
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-product-service
+spec:
+  selector:
+    app: product
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 8082
+      targetPort: 8082
+      nodePort: 30002
