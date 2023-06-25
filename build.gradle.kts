@@ -43,7 +43,7 @@ dependencies {
     // Custom-Pageable
     implementation("com.hrv.mart:custom-pageable:0.0.1-SNAPSHOT")
     // Product Model
-    implementation("com.hrv.mart:product:0.0.1")
+    implementation("com.hrv.mart:product:0.0.5")
 }
 
 tasks.withType<KotlinCompile> {
