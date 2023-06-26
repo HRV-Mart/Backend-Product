@@ -2,7 +2,7 @@ package com.hrv.mart.product.service
 
 import com.hrv.mart.custompageable.Pageable
 import com.hrv.mart.product.model.Product
-import com.hrv.mart.product.repository.ProductRepository
+import com.hrv.mart.product.repository.MongoProductRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.PageRequest
 import org.springframework.http.HttpStatus
@@ -14,15 +14,15 @@ import reactor.kotlin.core.publisher.switchIfEmpty
 @Service
 class ProductService(
     @Autowired
-    private val productRepository: ProductRepository
+    private val mongoProductRepository: MongoProductRepository
 ) {
     fun createProduct(product: Product) =
-        productRepository.insert(product.setIdToDefault())
+        mongoProductRepository.insert(product.setIdToDefault())
     fun updateProduct(product: Product, response: ServerHttpResponse) =
         isProductExist(productId = product.id)
             .flatMap { isExist ->
                 if (isExist) {
-                    productRepository.save(product)
+                    mongoProductRepository.save(product)
                         .map {
                             setHTTPOkCode(response)
                         }
@@ -33,7 +33,7 @@ class ProductService(
                 }
             }
     fun getProductFromId(productId: String, response: ServerHttpResponse) =
-        productRepository.findById(productId)
+        mongoProductRepository.findById(productId)
             .flatMap {product ->
                 setHTTPOkCode(response)
                     .then(Mono.just(product))
@@ -43,10 +43,10 @@ class ProductService(
                     .then(Mono.empty())
             }
     fun getAllProduct(pageRequest: PageRequest) =
-        productRepository.findProductsByNameNotNull(pageRequest)
+        mongoProductRepository.findProductsByNameNotNull(pageRequest)
             .collectList()
             .flatMap {products ->
-                val count = productRepository.countProductByNameNotNull()
+                val count = mongoProductRepository.countProductByNameNotNull()
                 count.map {totalSize ->
                     Pageable<Product>(
                         data = products,
@@ -63,7 +63,7 @@ class ProductService(
         isProductExist(productId)
             .flatMap { isExist ->
                 if (isExist) {
-                    productRepository.deleteById(productId)
+                    mongoProductRepository.deleteById(productId)
                         .then(setHTTPOkCode(response))
                         .then(Mono.just("Product Deleted Successfully"))
                 } else {
@@ -72,7 +72,7 @@ class ProductService(
                 }
             }
     private fun isProductExist(productId: String) =
-        productRepository.existsById(productId)
+        mongoProductRepository.existsById(productId)
     private fun setHTTPNotfoundCode(response: ServerHttpResponse) =
         generateDummyMono()
             .map {
