@@ -2,7 +2,7 @@ package com.hrv.mart.product
 
 import com.hrv.mart.custompageable.Pageable
 import com.hrv.mart.product.controller.ProductController
-import com.hrv.mart.product.Product
+import com.hrv.mart.product.model.Product
 import com.hrv.mart.product.repository.ProductRepository
 import com.hrv.mart.product.service.ProductService
 import org.junit.jupiter.api.Test
