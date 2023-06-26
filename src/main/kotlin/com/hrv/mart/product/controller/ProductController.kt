@@ -1,7 +1,7 @@
 package com.hrv.mart.product.controller
 
 import com.hrv.mart.custompageable.CustomPageRequest
-import com.hrv.mart.product.Product
+import com.hrv.mart.product.model.Product
 import com.hrv.mart.product.service.ProductService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.server.reactive.ServerHttpResponse
