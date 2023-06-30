@@ -8,7 +8,7 @@ import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 
 @Repository
-interface ProductRepository : ReactiveMongoRepository<Product, String> {
+interface MongoProductRepository : ReactiveMongoRepository<Product, String> {
     fun findProductsByNameNotNull(pageRequest: PageRequest): Flux<Product>
     fun countProductByNameNotNull(): Mono<Long>
 }
