@@ -1,6 +1,6 @@
 package com.hrv.mart.product
 
-import com.hrv.mart.custompageable.Pageable
+import com.hrv.mart.custompageable.model.Pageable
 import com.hrv.mart.product.controller.ProductController
 import com.hrv.mart.product.model.Product
 import com.hrv.mart.product.repository.MongoProductRepository
