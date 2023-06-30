@@ -1,6 +1,6 @@
 package com.hrv.mart.product.service
 
-import com.hrv.mart.custompageable.Pageable
+import com.hrv.mart.custompageable.model.Pageable
 import com.hrv.mart.product.model.Product
 import com.hrv.mart.product.repository.MongoProductRepository
 import org.springframework.beans.factory.annotation.Autowired
