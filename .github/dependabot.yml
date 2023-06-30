@@ -4,8 +4,16 @@
 # https://docs.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
 
 version: 2
+registries:
+  maven-github:
+    type: maven-repository
+    url: https://maven.pkg.github.com
+    username: ${{secrets.OSSRH_USERNAME}}
+    password: ${{secrets.OSSRH_TOKEN}}
 updates:
   - package-ecosystem: "gradle" # See documentation for possible values
     directory: "/" # Location of package manifests
+    registries:
+    - maven-github
     schedule:
       interval: "daily"

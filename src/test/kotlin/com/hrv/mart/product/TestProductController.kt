@@ -1,9 +1,9 @@
 package com.hrv.mart.product
 
+import com.hrv.mart.custompageable.model.Pageable
 import com.hrv.mart.product.controller.ProductController
-import com.hrv.mart.product.fixture.Pageable
 import com.hrv.mart.product.model.Product
-import com.hrv.mart.product.repository.ProductRepository
+import com.hrv.mart.product.repository.MongoProductRepository
 import com.hrv.mart.product.service.ProductService
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.doReturn
@@ -16,8 +16,8 @@ import reactor.test.StepVerifier
 import java.util.*
 
 class TestProductController {
-    private val productRepository = mock(ProductRepository::class.java)
-    private val productService = ProductService(productRepository)
+    private val mongoProductRepository = mock(MongoProductRepository::class.java)
+    private val productService = ProductService(mongoProductRepository)
     private val productController = ProductController(productService)
     private val response = mock(ServerHttpResponse::class.java)
     private val product = Product(
@@ -29,7 +29,7 @@ class TestProductController {
     @Test
     fun `should create product and return that product`() {
         doReturn(Mono.just(product))
-            .`when`(productRepository)
+            .`when`(mongoProductRepository)
             .insert(product)
         StepVerifier.create(productController.createProduct(product))
             .expectNext(product)
@@ -38,10 +38,10 @@ class TestProductController {
     @Test
     fun `should update product and return success message if product exist in database`() {
         doReturn(Mono.just(true))
-            .`when`(productRepository)
+            .`when`(mongoProductRepository)
             .existsById(product.id)
         doReturn(Mono.just(product))
-            .`when`(productRepository)
+            .`when`(mongoProductRepository)
             .save(product)
         StepVerifier.create(productController.updateProduct(product, response))
             .expectNext("Product Updated Successfully")
@@ -50,7 +50,7 @@ class TestProductController {
     @Test
     fun `should not update product and return error message`() {
         doReturn(Mono.just(false))
-            .`when`(productRepository)
+            .`when`(mongoProductRepository)
             .existsById(product.id)
         StepVerifier.create(productController.updateProduct(product, response))
             .expectNext("Product Not Found")
@@ -59,7 +59,7 @@ class TestProductController {
     @Test
     fun `should return product if product exist`() {
         doReturn(Mono.just(product))
-            .`when`(productRepository)
+            .`when`(mongoProductRepository)
             .findById(product.id)
         StepVerifier.create(productController.getProductFromId(productId = product.id, response = response))
             .expectNext(product)
@@ -68,7 +68,7 @@ class TestProductController {
     @Test
     fun `should return empty mono if product does not exist`() {
         doReturn(Mono.empty<Product>())
-            .`when`(productRepository)
+            .`when`(mongoProductRepository)
             .findById(product.id)
         StepVerifier.create(productController.getProductFromId(product.id, response))
             .expectComplete()
@@ -77,10 +77,10 @@ class TestProductController {
     @Test
     fun `should delete product and return success message when product exist`() {
         doReturn(Mono.just(true))
-            .`when`(productRepository)
+            .`when`(mongoProductRepository)
             .existsById(product.id)
         doReturn(Mono.empty<Void>())
-            .`when`(productRepository)
+            .`when`(mongoProductRepository)
             .deleteById(product.id)
         StepVerifier.create(productController.deleteProductFromId(product.id, response))
             .expectNext("Product Deleted Successfully")
@@ -89,7 +89,7 @@ class TestProductController {
     @Test
     fun `should not delete product and return error message when product do not exist`() {
         doReturn(Mono.just(false))
-            .`when`(productRepository)
+            .`when`(mongoProductRepository)
             .existsById(product.id)
         StepVerifier.create(productController.deleteProductFromId(product.id, response))
             .expectNext("Product Not Found")
@@ -100,10 +100,10 @@ class TestProductController {
         val page = 0
         val size = 1
         doReturn(Flux.just(product))
-            .`when`(productRepository)
+            .`when`(mongoProductRepository)
             .findProductsByNameNotNull(PageRequest.of(page, size))
         doReturn(Mono.just(1L))
-            .`when`(productRepository)
+            .`when`(mongoProductRepository)
             .countProductByNameNotNull()
         StepVerifier.create(productController.getAllProducts(
             page = Optional.of(page),
@@ -117,10 +117,10 @@ class TestProductController {
         val page = 1
         val size = 1
         doReturn(Flux.empty<Product>())
-            .`when`(productRepository)
+            .`when`(mongoProductRepository)
             .findProductsByNameNotNull(PageRequest.of(page, size))
         doReturn(Mono.just(1L))
-            .`when`(productRepository)
+            .`when`(mongoProductRepository)
             .countProductByNameNotNull()
         StepVerifier.create(productController.getAllProducts(
             page = Optional.of(page),
