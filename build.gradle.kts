@@ -40,10 +40,13 @@ dependencies {
     testImplementation("io.projectreactor:reactor-test")
     // Detekt-formatting
     detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.23.0")
-    // Custom-Pageable
+    // HRV-Mart
     implementation("com.hrv.mart:custom-pageable:0.0.2")
-    // Product Model
     implementation("com.hrv.mart:product:0.0.6")
+    // Test-Container
+    testImplementation("org.springframework.boot:spring-boot-testcontainers")
+    testImplementation("org.testcontainers:mongodb")
+
 }
 
 tasks.withType<KotlinCompile> {
