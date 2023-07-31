@@ -6,7 +6,7 @@ plugins {
     /*
     * Add detekt
     * */
-    id("io.gitlab.arturbosch.detekt") version "1.23.0"
+    id("io.gitlab.arturbosch.detekt") version "1.23.1"
     id("jacoco")// This is to use Jacoco for coverage testing
     kotlin("jvm") version "1.8.22"
     kotlin("plugin.spring") version "1.8.22"
