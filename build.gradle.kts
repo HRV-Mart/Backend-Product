@@ -64,7 +64,7 @@ tasks.withType<Test> {
 /*
 * detekt configs*/
 detekt {
-    toolVersion = "1.22.1"
+    toolVersion = "1.23.1"
     config = files("config/detekt/detekt.yml")
 }
 /*
