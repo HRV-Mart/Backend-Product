@@ -6,7 +6,7 @@ plugins {
     /*
     * Add detekt
     * */
-    id("io.gitlab.arturbosch.detekt") version "1.23.0"
+    id("io.gitlab.arturbosch.detekt") version "1.23.1"
     id("jacoco")// This is to use Jacoco for coverage testing
     kotlin("jvm") version "1.8.22"
     kotlin("plugin.spring") version "1.8.22"
@@ -39,7 +39,7 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("io.projectreactor:reactor-test")
     // Detekt-formatting
-    detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.23.0")
+    detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.23.1")
     // HRV-Mart
     implementation("com.hrv.mart:custom-pageable:0.0.2")
     implementation("com.hrv.mart:product:0.0.6")
@@ -64,7 +64,7 @@ tasks.withType<Test> {
 /*
 * detekt configs*/
 detekt {
-    toolVersion = "1.22.0"
+    toolVersion = "1.23.1"
     config = files("config/detekt/detekt.yml")
 }
 /*
