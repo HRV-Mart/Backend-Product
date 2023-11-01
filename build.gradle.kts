@@ -39,7 +39,7 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("io.projectreactor:reactor-test")
     // Detekt-formatting
-    detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.23.1")
+    detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.23.3")
     // HRV-Mart
     implementation("com.hrv.mart:custom-pageable:0.0.2")
     implementation("com.hrv.mart:product:0.0.6")
