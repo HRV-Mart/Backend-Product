@@ -8,7 +8,7 @@ plugins {
     * */
     id("io.gitlab.arturbosch.detekt") version "1.23.1"
     id("jacoco")// This is to use Jacoco for coverage testing
-    kotlin("jvm") version "1.9.0"
+    kotlin("jvm") version "1.9.22"
     kotlin("plugin.spring") version "1.9.0"
 }
 
